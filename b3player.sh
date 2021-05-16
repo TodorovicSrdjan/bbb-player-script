@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Broj sekundi koji glavni proces ceka nakon sto kreira nit
-REQ_DELAY=20
+# Broj sekundi nakon kojih se salje zahtev za skidanje sledeceg snimka
+REQ_DELAY=5
 
 if [[ $# > 2 ]]; then
     
@@ -29,7 +29,7 @@ fi
 
 putanja=$(echo "$(cd "$(dirname "$0")" && pwd )")
 
-python3 -m venv "$putanja"/bbb-player/env && source "$putanja"/bbb-player/env/bin/activate
+python3 -m venv "$putanja"/.bbb-player/env && source "$putanja"/.bbb-player/env/bin/activate
 echo -e 'Virtualnog okruzenja je kreirano\n'
 
 if [[ $# = 2 ]]; then
@@ -40,12 +40,12 @@ if [[ $# = 2 ]]; then
         do
             
             IFS=' ' read link naziv <<< $line
-            python "$putanja"/bbb-player/bbb-player.py -d "$link" -n "$naziv" --no-check-certificate &
+            python "$putanja"/.bbb-player/bbb-player.py -d "$link" -n "$naziv" --no-check-certificate #&
             
             sleep $REQ_DELAY
         done
     else 
-        python "$putanja"/bbb-player/bbb-player.py -d "$1" -n "$2" --no-check-certificate
+        python "$putanja"/.bbb-player/bbb-player.py -d "$1" -n "$2" --no-check-certificate
     fi
     
     deactivate
@@ -67,7 +67,7 @@ do
             do
                 
                 IFS=' ' read link naziv <<< $line
-                python "$putanja"/bbb-player/bbb-player.py -d "$link" -n "$naziv" --no-check-certificate &
+                python "$putanja"/.bbb-player/bbb-player.py -d "$link" -n "$naziv" --no-check-certificate #&
             
                 sleep $REQ_DELAY
                 
@@ -82,13 +82,13 @@ do
             echo -e "\nUnesi naziv datog meeting-a: "
             read naziv
             
-            python "$putanja"/bbb-player/bbb-player.py -d "$link" -n "$naziv" --no-check-certificate
+            python "$putanja"/.bbb-player/bbb-player.py -d "$link" -n "$naziv" --no-check-certificate
         fi
         ;;
         
     'Pregledaj meeting')
         # Pokrece server
-        python "$putanja"/bbb-player/bbb-player.py -s --no-check-certificate &
+        python "$putanja"/.bbb-player/bbb-player.py -s --no-check-certificate &
         pid1=$!
         
         sleep 1
