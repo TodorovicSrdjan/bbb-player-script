@@ -29,7 +29,8 @@ fi
 
 putanja=$(echo "$(cd "$(dirname "$0")" && pwd )")
 
-python3 -m venv "$putanja"/.bbb-player/env && source "$putanja"/.bbb-player/env/bin/activate
+{ python3 -m venv "$putanja"/.bbb-player/env && source "$putanja"/.bbb-player/env/bin/activate;} || { echo -e "\"venv\" nije instaliran" && sudo apt-get install python3-venv -y && python3 -m venv "$putanja"/.bbb-player/env && source "$putanja"/.bbb-player/env/bin/activate; } || exit 2
+
 echo -e 'Virtualnog okruzenja je kreirano\n'
 
 if [[ $# = 2 ]]; then

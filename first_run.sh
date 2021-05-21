@@ -4,9 +4,9 @@ putanja=$(echo "$(cd "$(dirname "$0")" && pwd )")
 
 url="https://github.com/andrazznidar/bbb-player.git"
 
-git clone $url && mv bbb-player .bbb-player || echo "Problem sa git-om ili komandom mv"; sudo apt-get install git; git clone $url && mv bbb-player .bbb-player|| exit 1
+{ git clone $url && mv bbb-player .bbb-player; } || { echo "Problem sa git-om ili komandom mv" && sudo apt-get install git -y && git clone $url && mv bbb-player .bbb-player; } || exit 1
 
-python3 -m venv "$putanja"/.bbb-player/env && source "$putanja"/.bbb-player/env/bin/activate || echo -e "\"venv\" nije instaliran"; sudo apt-get install python3-venv; python3 -m venv "$putanja"/.bbb-player/env && source "$putanja"/.bbb-player/env/bin/activate || exit 2
+{ python3 -m venv "$putanja"/.bbb-player/env && source "$putanja"/.bbb-player/env/bin/activate; } || { echo -e "\"venv\" nije instaliran" && sudo apt-get install python3-venv -y && python3 -m venv "$putanja"/.bbb-player/env && source "$putanja"/.bbb-player/env/bin/activate; } || exit 2
 
 echo -e '\nVirtualnog okruzenja je kreirano\n'
 
