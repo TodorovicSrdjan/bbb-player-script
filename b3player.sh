@@ -60,6 +60,7 @@ do
     'Skini meeting')
     
         echo 'Da li zelis da skines vise meeting-a?' 
+        read
         if [[ "$REPLY" = 'y' || "$REPLY" = 'Y' ]]; then
             echo '\nUnesi putanju do fajla sa informacijama: '
             read
