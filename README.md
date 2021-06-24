@@ -1,8 +1,8 @@
 # bbb-player-script 
 
-Skripte za skidanje BigBlueButton snimaka korišćenjem projekta [bbb-player](https://github.com/andrazznidar/bbb-player).
+Skripte za preuzimanje BigBlueButton snimaka korišćenjem projekta [bbb-player](https://github.com/andrazznidar/bbb-player).
 
-Skripta skida navedeni projekat, instalira potrebne biblioteke i omogućava jednostavnije skidanja jednog ili više snimaka.
+Skripta preuzima navedeni projekat, instalira potrebne biblioteke i omogućava jednostavnije preuzimanje jednog ili više snimaka (meeting-a).
 
 Skriptu `first_run.sh` pokrenuti samo jednom komandom `sudo bash first_run.sh`. 
 Nakon njenog pokretanja, sve potrebne biblioteke će biti instalirane i možete koristi glavnu skriptu pomoću komande `bash b3player.sh` ili samo komandom `b3player` ukoliko se odobrili kreiranje alias-a
