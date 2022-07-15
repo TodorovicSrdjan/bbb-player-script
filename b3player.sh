@@ -94,14 +94,8 @@ do
         # start server
         python "$SCRIPT_PATH"/.bbb-player/bbb-player.py -s --no-check-certificate &
         pid1=$!
-        
         sleep 1
-        
-        # open page in default browser
-        echo -e "import webbrowser\\nwebbrowser.open_new_tab(\"http://localhost:5000/\")" | python
-        pid2=$!
-        
-        wait $pid1 $pid2
+        wait $pid1
         
         deactivate
         echo "Server is terminated."
