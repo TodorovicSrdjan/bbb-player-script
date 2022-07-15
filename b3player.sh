@@ -1,5 +1,28 @@
 #!/bin/bash
 
+HELP_MSG=$(cat <<'END'
+Usage: b3player [ -h | -f <source> | <link> <name> ]
+	   b3player [ --help | --file <source> | <link> <name> ]
+
+-h | --help:
+	   prints this message
+
+-f <source> | --file <source>:
+	   takes file as input source. Each line should have URI and meeting name, separated by an space character
+END
+)
+
+PERM_ALIAS_MSG=$(cat <<'END'
+Napomena: Ukoliko je alias vec jednom dodat potrebno je da se manuelno obrise.
+Instrukcije za manuelno brisanje:
+ Alias se nalazi dnu fajla "~/.bash_aliases". Obrisite liniju koja sadrzi sledeci tekst
+ "# BigBlueButton Player alias" i liniju ispod nje.
+END
+# Takodje, potrebno je izbrisati putanju $putanja iz sistemske promenljive PATH
+)
+
+##############################################################################
+
 # Broj sekundi nakon kojih se salje zahtev za skidanje sledeceg snimka
 REQ_DELAY=5
 
@@ -7,18 +30,8 @@ if [[ $# > 2 ]]; then
     
     echo 'Moguce je prosledini najvise 2 argumenta'
     exit 1
-elif [[ $# = 1 ]]; then     
-    echo 'Usage: b3player [ -h | -f <source> | <link> <name> ]'
-    echo '       b3player [ --help | --file <source> | <link> <name> ]'
-    
-    echo
-    echo '-h | --help:'
-    echo '       prints this message'
-    
-    echo '-f <source> | --file <source>:'
-    echo '       takes file as input source. Each line should have URI and meeting name, separated by an space character'
-
-    echo
+elif [[ $# = 1 ]]; then   
+    echo -e "$HELP_MSG\n"
     
     if [[ "$1" = '-h' || "$1" = '--help' ]]; then
         exit 0
@@ -107,13 +120,8 @@ do
         ;;
         
     'Dodaj (trajni) alias')
-        tekst='Napomena: Ukoliko je alias vec jednom dodat potrebno je da se manuelno obrise.\n'
-        tekst="${$tekst} Instrukcije za manuelno brisanje:\n"
-        tekst="${$tekst} Alias se nalazi dnu fajla \"~/.bash_aliases\". Obrisite liniju koja sadrzi sledeci tekst\n"
-        tekst="${$tekst} \"# BigBlueButton Player alias\" i liniju ispod nje." # "Takodje, potrebno je izbrisati\n"
- #       tekst="${$tekst} putanju $putanja iz sistemske promenljive PATH\n"
         
-        echo -e "$tekst"
+        echo -e "$PERM_ALIAS_MSG\n"
         
         echo 'Da li zelite da nastavite sa dodavanjem aliasa (y|n)?'
         read
