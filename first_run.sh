@@ -16,8 +16,7 @@ echo -e '\nRequired programs are installed\n'
 
 source "$SCRIPT_PATH"/.bbb-player/env/bin/activate
 
-echo 'Create permanent alias for the script? (y|n) '
-read
+read -p 'Create permanent alias for the script? (y|n) '
 if [[ "$REPLY" = 'y' || "$REPLY" = 'Y' ]]; then 
 #    echo -e "export PATH=\"$PATH:$SCRIPT_PATH\"" >> ~/.bash_profile
     echo -e "\n# BigBlueButton Player alias\nalias b3player=\"bash $SCRIPT_PATH/b3player.sh\"" >> ~/.bash_aliases

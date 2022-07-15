@@ -69,13 +69,9 @@ select selected_option in 'Download meeting' 'Watch meeting' 'Add permanent alia
 do
     case $selected_option in
     'Download meeting')
-    
-        echo 'Do you want to download more than one meeting?' 
-        read
+        read -p 'Do you want to download more than one meeting?'
         if [[ "$REPLY" = 'y' || "$REPLY" = 'Y' ]]; then
-            echo '\nEnter the path to file with required information (titles, links, etc.): '
-            read
-            
+            read -p "\nEnter the path to file with required information (titles, links, etc.): "
             cat "$REPLY" | while read line 
             do
                 
@@ -85,14 +81,10 @@ do
                 sleep $REQ_DELAY
                 
             done
-            
             echo -e "\nMeetings are downloaded\n"
         else
-            echo -e "\nEnter link: "
-            read link
-            
-            echo -e "\nEnter meeting title: "
-            read title
+            read -p "\nEnter link: " link
+            read -p "\nEnter meeting title: " title
             
             python "$SCRIPT_PATH"/.bbb-player/bbb-player.py -d "$link" -n "$title" --no-check-certificate
         fi
@@ -119,11 +111,8 @@ do
     'Add permanent alias')
         echo -e "$PERM_ALIAS_MSG\n"
         
-        echo 'Are you sure you want to add permanent alias? (y|n)'
-        read
-        
+        read -p 'Are you sure you want to add permanent alias? (y|n)'
         if [[ "$REPLY" = 'y' || "$REPLY" = 'Y' ]]; then
-            
 #            echo -e "export PATH=\"$PATH:$SCRIPT_PATH\"" >> ~/.bash_profile
             echo -e "\n# BigBlueButton Player alias\nalias b3player=\"bash $SCRIPT_PATH/b3player.sh\"" >> ~/.bash_aliases
             
