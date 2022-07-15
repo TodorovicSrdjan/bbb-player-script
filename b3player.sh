@@ -19,7 +19,7 @@ Instructions:
  1. Find the alias at the end of the file "~/.bash_aliases"
  2. Delete line "# BigBlueButton Player alias" and the following line
 END
-# 3. Delete $putanja from system variable PATH
+# 3. Delete $SCRIPT_PATH from system variable PATH
 )
 
 ##############################################################################
@@ -41,9 +41,9 @@ elif [[ $# = 1 ]]; then
     fi
 fi
 
-putanja=$(echo "$(cd "$(dirname "$0")" && pwd )")
+SCRIPT_PATH=$(echo "$(cd "$(dirname "$0")" && pwd )")
 
-{ python3 -m venv "$putanja"/.bbb-player/env && source "$putanja"/.bbb-player/env/bin/activate;} || { echo -e "\"venv\" is not installed. Please run first_run.sh to fix that." && exit 2; }
+{ python3 -m venv "$SCRIPT_PATH"/.bbb-player/env && source "$SCRIPT_PATH"/.bbb-player/env/bin/activate;} || { echo -e "\"venv\" is not installed. Please run first_run.sh to fix that." && exit 2; }
 
 echo -e 'Virtual environment is created\n'
 
@@ -54,13 +54,13 @@ if [[ $# = 2 ]]; then
         cat "$2" | while read line 
         do
             
-            IFS=' ' read link naziv <<< $line
-            python "$putanja"/.bbb-player/bbb-player.py -d "$link" -n "$naziv" --no-check-certificate #&
+            IFS=' ' read link title <<< $line
+            python "$SCRIPT_PATH"/.bbb-player/bbb-player.py -d "$link" -n "$title" --no-check-certificate #&
             
             sleep $REQ_DELAY
         done
     else 
-        python "$putanja"/.bbb-player/bbb-player.py -d "$1" -n "$2" --no-check-certificate
+        python "$SCRIPT_PATH"/.bbb-player/bbb-player.py -d "$1" -n "$2" --no-check-certificate
     fi
     
     deactivate
@@ -68,9 +68,9 @@ if [[ $# = 2 ]]; then
     exit 0
 fi
 
-select izbor in 'Download meeting' 'Watch meeting' 'Add permanent alias' 'Quit'
+select selected_option in 'Download meeting' 'Watch meeting' 'Add permanent alias' 'Quit'
 do
-    case $izbor in
+    case $selected_option in
     'Download meeting')
     
         echo 'Do you want to download more than one meeting?' 
@@ -82,8 +82,8 @@ do
             cat "$REPLY" | while read line 
             do
                 
-                IFS=' ' read link naziv <<< $line
-                python "$putanja"/.bbb-player/bbb-player.py -d "$link" -n "$naziv" --no-check-certificate #&
+                IFS=' ' read link title <<< $line
+                python "$SCRIPT_PATH"/.bbb-player/bbb-player.py -d "$link" -n "$title" --no-check-certificate #&
             
                 sleep $REQ_DELAY
                 
@@ -96,15 +96,15 @@ do
             read link
             
             echo -e "\nEnter meeting title: "
-            read naziv
+            read title
             
-            python "$putanja"/.bbb-player/bbb-player.py -d "$link" -n "$naziv" --no-check-certificate
+            python "$SCRIPT_PATH"/.bbb-player/bbb-player.py -d "$link" -n "$title" --no-check-certificate
         fi
         ;;
         
     'Watch meeting')
         # start server
-        python "$putanja"/.bbb-player/bbb-player.py -s --no-check-certificate &
+        python "$SCRIPT_PATH"/.bbb-player/bbb-player.py -s --no-check-certificate &
         pid1=$!
         
         sleep 1
@@ -129,8 +129,8 @@ do
         
         if [[ "$REPLY" = 'y' || "$REPLY" = 'Y' ]]; then
             
-#            echo -e "export PATH=\"$PATH:$putanja\"" >> ~/.bash_profile
-            echo -e "\n# BigBlueButton Player alias\nalias b3player=\"bash $putanja/b3player.sh\"" >> ~/.bash_aliases
+#            echo -e "export PATH=\"$PATH:$SCRIPT_PATH\"" >> ~/.bash_profile
+            echo -e "\n# BigBlueButton Player alias\nalias b3player=\"bash $SCRIPT_PATH/b3player.sh\"" >> ~/.bash_aliases
             
             source ~/.bashrc
         fi
