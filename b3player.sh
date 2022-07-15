@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Number of seconds after which the request for downloading the next meeting is sent
+REQ_DELAY=5
+
+SCRIPT_PATH=$(echo "$(cd "$(dirname "$0")" && pwd )")
+
+##############################################################################
+
 HELP_MSG=$(cat <<'END'
 Usage: b3player [ -h | -f <source> | <link> <name> ]
 	   b3player [ --help | --file <source> | <link> <name> ]
@@ -24,11 +31,7 @@ END
 
 ##############################################################################
 
-# Number of seconds after which the request for downloading the next meeting is sent
-REQ_DELAY=5
-
 if [[ $# > 2 ]]; then
-    
     echo -e "b3player: submitted more then 2 arguments\nTry 'b3player -h' for more information."
     exit 1
 elif [[ $# = 1 ]]; then   
@@ -41,19 +44,14 @@ elif [[ $# = 1 ]]; then
     fi
 fi
 
-SCRIPT_PATH=$(echo "$(cd "$(dirname "$0")" && pwd )")
-
 { python3 -m venv "$SCRIPT_PATH"/.bbb-player/env && source "$SCRIPT_PATH"/.bbb-player/env/bin/activate;} || { echo -e "\"venv\" is not installed. Please run first_run.sh to fix that." && exit 2; }
 
 echo -e 'Virtual environment is created\n'
 
 if [[ $# = 2 ]]; then
-    
     if [[ "$1" = '-f' || "$1" = '--file' ]]; then
-        
         cat "$2" | while read line 
         do
-            
             IFS=' ' read link title <<< $line
             python "$SCRIPT_PATH"/.bbb-player/bbb-player.py -d "$link" -n "$title" --no-check-certificate #&
             
@@ -64,7 +62,6 @@ if [[ $# = 2 ]]; then
     fi
     
     deactivate
-    
     exit 0
 fi
 
@@ -89,8 +86,7 @@ do
                 
             done
             
-            echo -e "\nMeetings are donwloaded\n"
-        
+            echo -e "\nMeetings are downloaded\n"
         else
             echo -e "\nEnter link: "
             read link
@@ -121,7 +117,6 @@ do
         ;;
         
     'Add permanent alias')
-        
         echo -e "$PERM_ALIAS_MSG\n"
         
         echo 'Are you sure you want to add permanent alias? (y|n)'
